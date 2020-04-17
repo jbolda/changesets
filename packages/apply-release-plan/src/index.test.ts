@@ -11,7 +11,7 @@ import fs from "fs-extra";
 import path from "path";
 import outdent from "outdent";
 import spawn from "spawndamnit";
-import { parse } from "@changesets/config";
+import { parse, defaultWrittenConfig } from "@changesets/config";
 
 import applyReleasePlan from "./";
 import { getPackages, Packages } from "@manypkg/get-packages";
@@ -294,10 +294,13 @@ describe("apply release plan", () => {
         releasePlan.getReleasePlan(),
         {
           ...releasePlan.config,
-          changelog: [
-            path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
-            null
-          ]
+          changelog: {
+            ...defaultWrittenConfig.changelog,
+            generator: [
+              path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+              null
+            ]
+          }
         }
       );
 
@@ -332,10 +335,13 @@ describe("apply release plan", () => {
         releasePlan.getReleasePlan(),
         {
           ...releasePlan.config,
-          changelog: [
-            path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
-            null
-          ]
+          changelog: {
+            ...defaultWrittenConfig.changelog,
+            generator: [
+              path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+              null
+            ]
+          }
         }
       );
 
@@ -385,10 +391,13 @@ describe("apply release plan", () => {
         releasePlan.getReleasePlan(),
         {
           ...releasePlan.config,
-          changelog: [
-            path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
-            null
-          ]
+          changelog: {
+            ...defaultWrittenConfig.changelog,
+            generator: [
+              path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+              null
+            ]
+          }
         }
       );
 
@@ -514,10 +523,13 @@ describe("apply release plan", () => {
           await getPackages(tempDir),
           {
             ...releasePlan.config,
-            changelog: [
-              path.resolve(__dirname, "test-utils/failing-functions"),
-              null
-            ]
+            changelog: {
+              ...defaultWrittenConfig.changelog,
+              generator: [
+                path.resolve(__dirname, "test-utils/failing-functions"),
+                null
+              ]
+            }
           }
         );
       } catch (e) {
@@ -643,10 +655,13 @@ describe("apply release plan", () => {
       releasePlan.getReleasePlan(),
       {
         ...releasePlan.config,
-        changelog: [
-          path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
-          null
-        ],
+        changelog: {
+          ...defaultWrittenConfig.changelog,
+          generator: [
+            path.resolve(__dirname, "test-utils/simple-get-changelog-entry"),
+            null
+          ]
+        },
         commit: true
       },
       setupFunc
@@ -753,7 +768,8 @@ describe("apply release plan", () => {
           preState: undefined,
           globalChangeset: {
             name: "some-fake-release-name",
-            summary: "Holy heck this might just work"
+            summary: "Holy heck this might just work",
+            id: "aaa-global-changeset"
           }
         },
         parse(
